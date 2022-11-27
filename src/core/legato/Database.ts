@@ -1,7 +1,4 @@
-import {
-  TDatabaseConfiguration,
-  LegatoResultsData,
-} from "./types/database.types";
+import { TDatabaseConfiguration } from "./types/database.types";
 import mssql, { IResult } from "mssql";
 import { Pool, QueryResult } from "pg";
 import mysql from "mysql";
