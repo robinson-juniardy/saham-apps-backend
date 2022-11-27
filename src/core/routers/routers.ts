@@ -2,7 +2,6 @@ import path from "path";
 import fs from "fs";
 import { ExtractControllerMetadata } from "../decorators/utils";
 import express, { Handler } from "express";
-import { TMethods } from "../decorators/types/common";
 import { IRouter } from "../decorators/interfaces/router.interface";
 
 export function getControllers() {

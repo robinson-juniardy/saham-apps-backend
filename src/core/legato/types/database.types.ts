@@ -1,6 +1,3 @@
-import { IResult } from "mssql";
-import { QueryResult } from "pg";
-
 export type TMysqlProvider = {
   host: string;
   user: string;

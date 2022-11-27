@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import Application, { dependency } from "./core/legato/Application";
-import { Routes, getControllers } from "./core/routers/routers";
+import { Routes } from "./core/routers/routers";
 import cors from "cors";
 import express from "express";
 import path from "path";

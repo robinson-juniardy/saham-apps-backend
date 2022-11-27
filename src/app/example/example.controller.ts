@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { Controller, Http } from "../../core/decorators";
 import AppExtensions from "../../middleware/AppExtensions";
 import ExampleServices from "./example.services";
-import { QueryResult } from "pg";
 
 @Controller({
   basepath: "/example",
