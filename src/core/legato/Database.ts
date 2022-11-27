@@ -9,19 +9,16 @@ export default class Database {
     this.__databaseConfig = config;
   }
 
-  public async query<T, K extends keyof T>(
+  public async query(
     query: string,
-    options: {
-      resultType: T;
-      resultKey: K;
-    }
+    resultKey: keyof QueryResult | keyof IResult<any>
   ) {
     switch (this.__databaseConfig.provider) {
       case "sqlserver":
         try {
           await mssql.connect(this.__databaseConfig.options);
           const result = await mssql.query(query);
-          return result[options.resultKey as keyof IResult<any>];
+          return result[resultKey as keyof IResult<any>];
         } catch (error) {
           console.log(error);
           return null;
@@ -31,7 +28,7 @@ export default class Database {
           const result = await new Pool(this.__databaseConfig.options).query(
             query
           );
-          return result[options.resultKey as keyof QueryResult];
+          return result[resultKey as keyof QueryResult];
         } catch (error) {
           console.error(error);
           return null;

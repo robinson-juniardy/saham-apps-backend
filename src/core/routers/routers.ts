@@ -22,16 +22,13 @@ export function getControllers() {
   for (let fullpath of main_app_fullpath_dir_list) {
     const controllers = fs.readdirSync(fullpath);
 
-    main_app_controller_list = main_app_controller_list.concat(
-      path.join(
-        fullpath,
-        String(
-          controllers.map((f) => {
-            if (f.split(".")[1] === "controller") return f;
-          })
-        )
-      )
-    );
+    for (let c of controllers) {
+      if (c.split(".")[1] === "controller") {
+        main_app_controller_list = main_app_controller_list.concat(
+          path.join(fullpath, c)
+        );
+      }
+    }
   }
 
   for (let controller of main_app_controller_list) {

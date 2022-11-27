@@ -1,8 +1,9 @@
 import { IController, IMethods } from "./interfaces/controller.interface";
 import AppMiddleware from "../../middleware/AppMiddleware";
 import { CoreMetadata } from "./metadata.keys";
-import { TMethods } from "./types/common";
+import { GenericClassDecorator, TMethods } from "./types/common";
 import { IRouter } from "./interfaces/router.interface";
+import { Type } from "./interfaces/service.interface";
 export function Controller(
   options: IController<AppMiddleware>
 ): ClassDecorator {
@@ -58,6 +59,10 @@ export function MethodDecoratorFactory(methods: TMethods) {
       Reflect.defineMetadata(CoreMetadata.router, routers, instance);
     };
   };
+}
+
+export function Service(): GenericClassDecorator<Type<object>> {
+  return (target: Type<object>) => {};
 }
 
 export abstract class Http {

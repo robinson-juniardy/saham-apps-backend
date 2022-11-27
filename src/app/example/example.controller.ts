@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Controller, Http } from "../../core/decorators";
 import AppExtensions from "../../middleware/AppExtensions";
-import { Postgres } from "../../config/database";
+import ExampleServices from "./example.services";
 import { QueryResult } from "pg";
 
 @Controller({
@@ -9,20 +9,17 @@ import { QueryResult } from "pg";
   middlewares: ["auth"],
 })
 export default class ExampleController {
-  constructor(private readonly db = Postgres, private Results: QueryResult) {}
+  constructor(private service: ExampleServices = new ExampleServices()) {}
 
   @Http.Get({
     path: "/hello",
     middleware: ["logger"],
   })
   async index(request: Request, response: Response) {
-    const query = await this.db
-      .query("SELECT * FROM ringkasan_saham", {
-        resultType: this.Results,
-        resultKey: "rows",
-      })
-      .then((result) => result);
-    response.json(query);
+    const data: Promise<ExampleServices> = await this.service.GetRingkasanSaham(
+      "rows"
+    );
+    response.json(data);
   }
 
   @Http.Get({

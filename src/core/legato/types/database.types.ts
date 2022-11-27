@@ -70,4 +70,4 @@ export type TDatabaseConfiguration =
       options: TMongooseProvider;
     };
 
-export type LegatoResultsData = IResult<any> | QueryResult;
+export type TDatabaseRecordResult<T> = keyof T;
