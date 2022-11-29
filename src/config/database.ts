@@ -4,9 +4,29 @@ export const Postgres = new Database({
   options: {
     host: "localhost",
     user: "postgres",
-    password: "1nd0n3s1a!#",
-    database: "db_saham",
+    password: "",
+    database: "",
     port: 5432,
+  },
+});
+
+export const SqlServer = new Database({
+  provider: "sqlserver",
+  options: {
+    server: "",
+    user: "",
+    password: "",
+    database: "",
+    parseJson: true,
+    options: {
+      encrypt: false,
+      trustServerCertificate: true,
+    },
+    pool: {
+      max: 10,
+      min: 0,
+      idleTimeoutMillis: 30000,
+    },
   },
 });
 
@@ -15,8 +35,8 @@ export const MySQL = new Database({
   options: {
     host: "localhost",
     user: "root",
-    password: "1nd0n3s1aA",
-    database: "db_shop100",
-    port: 3318,
+    password: "",
+    database: "",
+    port: 3306,
   },
 });

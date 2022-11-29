@@ -1,3 +1,6 @@
+import { IResult } from "mssql";
+import { QueryResult } from "pg";
+
 export type TMysqlProvider = {
   host: string;
   user: string;
@@ -49,6 +52,9 @@ export type TMongooseProvider = {
     family: number;
   };
 };
+
+export type SqlServerContext = IResult<any>;
+export type PostgreeContext = QueryResult;
 
 export type TDatabaseConfiguration =
   | {
