@@ -1,7 +1,7 @@
 import { TDatabaseConfiguration } from "./types/database.types";
 import mssql, { IResult } from "mssql";
 import { Pool, QueryResult } from "pg";
-import mysql from "mysql";
+import mysql from "mysql2";
 
 export default class Database {
   protected readonly __databaseConfig: TDatabaseConfiguration;
@@ -40,7 +40,10 @@ export default class Database {
         connection.connect();
 
         connection.query(query, (error, results, fields) => {
-          if (error) console.log(error);
+          if (error) {
+            console.log(error);
+            return null;
+          }
           return results;
         });
 

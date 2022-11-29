@@ -3,6 +3,7 @@ export type TMysqlProvider = {
   user: string;
   password: string;
   database: string;
+  port?: number;
 };
 
 export type TSqlServerProvider = {

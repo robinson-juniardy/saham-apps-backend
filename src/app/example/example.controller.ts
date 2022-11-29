@@ -22,6 +22,15 @@ export default class ExampleController {
   }
 
   @Http.Get({
+    path: "/products",
+  })
+  async products(request: Request, response: Response) {
+    const data: Promise<ExampleServices> = await this.service.Getproducts();
+
+    response.json(data);
+  }
+
+  @Http.Get({
     path: "/world",
   })
   getSentence(request: Request, response: Response) {
