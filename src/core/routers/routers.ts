@@ -75,8 +75,10 @@ export function createRouters<T>(Controller: new (...args: any[]) => T) {
 
 export abstract class Routes {
   static autoload() {
-    for (let controller of getControllers()) {
+    let ctx = getControllers();
+    let crouter = ctx.map((controller) => {
       return createRouters(controller);
-    }
+    });
+    return crouter;
   }
 }
