@@ -39,15 +39,17 @@ export default class Database {
         );
         connection.connect();
 
-        connection.query(query, (error, results, fields) => {
-          if (error) {
-            console.log(error);
-            return null;
-          }
-          return results;
-        });
+        return new Promise((resolve, reject) => {
+          connection.query(query, (error, results, fields) => {
+            if (error) {
+              console.log(error);
+              reject(null);
+            }
+            resolve(results);
+          });
 
-        connection.end();
+          connection.end();
+        });
     }
   }
 }
