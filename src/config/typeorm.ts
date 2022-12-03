@@ -1,5 +1,6 @@
 import { loadEntities } from "../core/typeorm";
 import { DataSource } from "typeorm";
+import { PerformConnection } from "../core/typeorm/index";
 
 const Entities = loadEntities(process.cwd() + "/src/entities");
 
@@ -42,15 +43,5 @@ export const MysqlORM = new DataSource({
   entities: Entities,
 });
 
-/**
- * uncomment init below for testing connection
- * change PostgresORM init and choose your connection data source object if not using Postgres
- */
-
-// PostgresORM.initialize()
-//   .then(() => {
-//     console.log("data source has been initialized!");
-//   })
-//   .catch((error) => {
-//     console.error("Error during Data Source initialization", error);
-//   });
+const connection = new PerformConnection(PostgresORM);
+connection.connect();
