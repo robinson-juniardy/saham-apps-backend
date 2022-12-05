@@ -332,7 +332,153 @@ Untuk memanggilnya ke dalam Routing adalah sebagai berikut :
 
 ### Legato/Typeorm
 
-untuk dokumentasi ini akan di update setelah versi Beta dari LegatoJs telah selesai.
+file setup untuk typeorm ada pada direktori `src/config/typeorm.ts`
+
+```typescript
+import { loadEntities } from "../core/typeorm";
+import { DataSource } from "typeorm";
+import { PerformConnection } from "../core/typeorm";
+
+const Entities = loadEntities(process.cwd() + "/src/entities");
+
+export const PostgresORM = new DataSource({
+  type: "postgres",
+  host: "localhost",
+  username: "",
+  password: "",
+  database: "",
+  synchronize: false,
+  port: 5432,
+  entities: Entities,
+});
+
+export const SQLServerORM = new DataSource({
+  type: "mssql",
+  host: "localhost",
+  username: "",
+  password: "",
+  database: "",
+  synchronize: false,
+  pool: {
+    max: 10,
+    min: 0,
+  },
+  options: {
+    encrypt: false,
+  },
+  entities: Entities,
+});
+
+export const MysqlORM = new DataSource({
+  type: "mysql",
+  host: "localhost",
+  username: "",
+  password: "",
+  database: "",
+  port: 3306,
+  synchronize: false,
+  entities: Entities,
+});
+
+const connection = new PerformConnection(PostgresORM);
+connection.connect();
+```
+
+Perhatikan pada class `PerformConnection` di bawah, isikan constructornya dengan object dari database, sebagai contoh untuk kasus ini adalah `PostgresORM`
+
+```typescript
+...
+const connection = new PerformConnection(PostgresORM);
+connection.connect();
+...
+```
+
+ketika membuat koneksi dengan menggunakan `TypeORM`, maka langkah berikutnya adalah membuat entity, untuk membuat entity maka anda harus membuat direktori bernama `entities` di dalam direktori `src`
+
+kita juga dapat melakukan custom pada direktori ini dengan setting sebagai berikut :
+
+```typescript
+...
+const Entities = loadEntities(process.cwd() + "/src/entities");
+...
+```
+
+sintaks ini terdapat pada file yang sama, terletak setelah import
+
+pada kasus ini sebagai contoh untuk membuat entity user, silahkan buat file dengan nama `users.entity.ts` pada direktori `entities`
+
+```typescript
+import { Entity, BaseEntity, Column, PrimaryGeneratedColumn } from "typeorm";
+
+@Entity({ name: "users" })
+export default class UsersEntity extends BaseEntity {
+  @PrimaryGeneratedColumn({ type: "integer" })
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Colum()
+  username: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
+}
+```
+
+untuk dokumentasi lebih lanjut anda dapat mengunjungi situs official [TypeORM](https://typeorm.io/)
+
+## Implementasi Legato Module dengan TypeORM
+
+`user.service.ts`
+
+```typescript
+import { MysqlORM } from "../../config/typeorm";
+import UsersEntity from "../../entities/users.entity.ts";
+
+export default class UsersService {
+  constructor(private db = MysqlORM) {}
+
+  async getUsers(): Promise<UsersEntity[]> {
+    const Repo = await this.db.getRepository(UsersEntity);
+    return Repo.find();
+  }
+}
+```
+
+`users.controller.ts`
+
+```typescript
+import { Request, Response } from "express";
+import { Controller, Http } from "../../core/decorators";
+import UsersService from "./users.service";
+
+@Controller({
+  basepath: "/api",
+})
+export default class Users {
+  constructor(private usersService: UsersService = new UsersService()) {}
+
+  @Http.Get({
+    path: "/users",
+  })
+  async GetAllUsers(request: Request, response: Response) {
+    const results = await usersService
+      .getUsers()
+      .then((data) => data)
+      .catch((error) => error);
+
+    response.json(results);
+  }
+}
+```
+
+### Demikianlah sedikit penjelasan mengenai integrasi `TypeORM` dengan `Legato Module`
+
+#
 
 ## Support
 
