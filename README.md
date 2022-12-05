@@ -443,7 +443,7 @@ export default class UsersService {
   constructor(private db = MysqlORM) {}
 
   async getUsers(): Promise<UsersEntity[]> {
-    const Repo = await this.db.getRepository(UsersEntity);
+    const Repo = this.db.getRepository(UsersEntity);
     return Repo.find();
   }
 }
