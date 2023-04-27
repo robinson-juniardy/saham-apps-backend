@@ -1,17 +1,26 @@
 import { TDatabaseConfiguration } from "./types/database.types";
-import mssql, { IResult } from "mssql";
-import { Pool, QueryResult } from "pg";
+import mssql, { IResult, pool } from "mssql";
+import { Client, Pool, QueryResult } from "pg";
 import mysql from "mysql2";
 
 export default class Database {
   protected readonly __databaseConfig: TDatabaseConfiguration;
+
+  public static bulkInsert<params extends any[]>(
+    table: string,
+    inputParams: params,
+    fields: Array<string>
+  ) {}
+
   constructor(private config: TDatabaseConfiguration) {
     this.__databaseConfig = config;
   }
 
   public async query(
     query: string,
-    resultKey: keyof QueryResult | keyof IResult<any>
+    resultKey: keyof QueryResult | keyof IResult<any>,
+    multiple: boolean = false,
+    multipleParams?: any[]
   ) {
     switch (this.__databaseConfig.provider) {
       case "sqlserver":

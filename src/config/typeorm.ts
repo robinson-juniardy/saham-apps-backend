@@ -1,15 +1,15 @@
 import { loadEntities } from "../core/typeorm";
 import { DataSource } from "typeorm";
-import { PerformConnection } from "../core/typeorm/index";
+import { PerformConnection } from "../core/typeorm";
 
 const Entities = loadEntities(process.cwd() + "/src/entities");
 
 export const PostgresORM = new DataSource({
   type: "postgres",
   host: "localhost",
-  username: "",
-  password: "",
-  database: "",
+  username: "postgres",
+  password: "1nd0n3s1a!#",
+  database: "db_saham",
   synchronize: false,
   port: 5432,
   entities: Entities,

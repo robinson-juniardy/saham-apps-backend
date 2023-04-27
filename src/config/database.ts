@@ -4,8 +4,8 @@ export const Postgres = new Database({
   options: {
     host: "localhost",
     user: "postgres",
-    password: "",
-    database: "",
+    password: "1nd0n3s1a!#",
+    database: "db_saham",
     port: 5432,
   },
 });
